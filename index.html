@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Doa Umrah Pro</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts for UI and Arabic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #0D9488;
+            --primary-dark: #0F766E;
+            --bg-color: #F9FAFB;
+            --card-bg: #FFFFFF;
+            --text-main: #1F2937;
+            --text-muted: #6B7280;
+            --accent: #D97706;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Mobile Container to simulate app view on desktop */
+        #app-container {
+            width: 100%;
+            max-width: 480px;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            display: none;
+            padding: 5px;
+        }
+
+        .font-controls {
+            display: none;
+            gap: 10px;
+        }
+
+        .font-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            border-radius: 4px;
+            width: 32px;
+            height: 32px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Views */
+        .view {
+            display: none;
+            flex-direction: column;
+            flex-grow: 1;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .view.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Home Menu Cards */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 4px solid var(--primary);
+        }
+
+        .menu-card:active {
+            transform: scale(0.98);
+        }
+
+        .menu-icon {
+            width: 48px;
+            height: 48px;
+            background-color: #E0F2FE;
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            margin-right: 16px;
+        }
+
+        .menu-text h3 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .menu-text p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Detail View Styles */
+        .content-scroll {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-bottom: 100px; /* Space for counter if exists */
+        }
+
+        .prayer-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .prayer-title {
+            color: var(--primary-dark);
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #E5E7EB;
+            padding-bottom: 8px;
+        }
+
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            font-size: 2rem; /* default */
+            line-height: 2.2;
+            text-align: right;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            direction: rtl;
+        }
+
+        .latin-text {
+            font-style: italic;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            line-height: 1.5;
+            font-size: 1rem;
+        }
+
+        .translation-text {
+            color: var(--text-muted);
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        /* Counter Footer (Tasbih) */
+        .counter-footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 480px;
+            background-color: var(--card-bg);
+            padding: 16px 20px;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 20;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .counter-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .counter-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .counter-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .tap-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4);
+            cursor: pointer;
+            transition: transform 0.1s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tap-btn:active {
+            transform: scale(0.9);
+            background-color: var(--primary-dark);
+        }
+        
+        .reset-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .instruction {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app-container">
+    <!-- Header -->
+    <header>
+        <button class="back-btn" id="backBtn" onclick="goHome()">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="header-title" id="headerTitle">Doa Umrah Pro</div>
+        <div class="font-controls" id="fontControls">
+            <button class="font-btn" onclick="changeFontSize(-0.2)">A-</button>
+            <button class="font-btn" onclick="changeFontSize(0.2)">A+</button>
+        </div>
+    </header>
+
+    <!-- Home View -->
+    <div id="homeView" class="view active">
+        <div class="instruction">
+            Pilih panduan doa berdasarkan tahapan ibadah Umrah Anda.
+        </div>
+        <div class="menu-grid">
+            <div class="menu-card" onclick="openCategory('persiapan', 'Niat & Persiapan')">
+                <div class="menu-icon"><i class="fa-solid fa-suitcase-rolling"></i></div>
+                <div class="menu-text">
+                    <h3>Niat & Persiapan</h3>
+                    <p>Doa Safar, Niat Umrah, dan Talbiyah.</p>
+                </div>
+            </div>
+
+            <div class="menu-card" onclick="openCategory('masjid', 'Masjid & Ka\'bah')">
+                <div class="menu-icon"><i class="fa-solid fa-mosque"></i></div>
+                <div class="menu-text">
+                    <h3>Masjid & Ka'bah</h3>
+                    <p>Doa masuk Masjidil Haram & melihat Ka'bah.</p>
+                </div>
+            </div>
+            
+            <div class="menu-card" onclick="openCategory('tawaf', 'Doa Tawaf')">
+                <div class="menu-icon"><i class="fa-solid fa-kaaba"></i></div>
+                <div class="menu-text">
+                    <h3>Tawaf</h3>
+                    <p>Doa putaran 1-7 dan penghitung otomatis.</p>
+                </div>
+            </div>
+
+            <div class="menu-card" onclick="openCategory('setelah-tawaf', 'Sesudah Tawaf')">
+                <div class="menu-icon"><i class="fa-solid fa-glass-water"></i></div>
+                <div class="menu-text">
+                    <h3>Sesudah Tawaf</h3>
+                    <p>Doa Maqam Ibrahim dan minum air Zamzam.</p>
+                </div>
+            </div>
+
+            <div class="menu-card" onclick="openCategory('sai', 'Doa Sa\'i')">
+                <div class="menu-icon"><i class="fa-solid fa-shoe-prints"></i></div>
+                <div class="menu-text">
+                    <h3>Sa'i</h3>
+                    <p>Doa di Shafa & Marwah serta penghitung.</p>
+                </div>
+            </div>
+
+            <div class="menu-card" onclick="openCategory('tahallul', 'Tahallul')">
+                <div class="menu-icon"><i class="fa-solid fa-scissors"></i></div>
+                <div class="menu-text">
+                    <h3>Tahallul</h3>
+                    <p>Doa menggunting rambut penutup Umrah.</p>
+                </div>
+            </div>
+
+            <div class="menu-card" onclick="openCategory('nabawi', 'Masjid Nabawi')">
+                <div class="menu-icon"><i class="fa-solid fa-moon"></i></div>
+                <div class="menu-text">
+                    <h3>Masjid Nabawi</h3>
+                    <p>Masuk masjid & salam ke makam Rasulullah.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail View -->
+    <div id="detailView" class="view">
+        <div class="content-scroll" id="contentScroll">
+            <!-- Content injected via JS -->
+        </div>
+    </div>
+
+    <!-- Counter Footer (Tasbih) -->
+    <div id="counterFooter" class="counter-footer">
+        <div class="counter-info">
+            <span class="counter-label" id="counterLabel">Putaran Tawaf</span>
+            <span class="counter-value"><span id="counterValue">0</span> / 7</span>
+            <button class="reset-btn" onclick="resetCounter()">Ulang (Reset)</button>
+        </div>
+        <button class="tap-btn" onclick="incrementCounter()">
+            TAP <i class="fa-solid fa-hand-pointer" style="margin-left: 8px; font-size: 1rem;"></i>
+        </button>
+    </div>
+
+</div>
+
+<script>
+    // Database Doa Lengkap
+    const doaData = {
+        'persiapan': [
+            {
+                title: "Niat Umrah",
+                arabic: "لَبَّيْكَ اللَّهُمَّ عُمْرَةً",
+                latin: "Labbaikallahumma 'umratan.",
+                indo: "Aku penuhi panggilan-Mu ya Allah untuk melaksanakan ibadah umrah."
+            },
+            {
+                title: "Bacaan Talbiyah",
+                arabic: "لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لاَ شَرِيْكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ لاَ شَرِيْكَ لَكَ",
+                latin: "Labbaikallahumma labbaik, labbaika laa syariika laka labbaik. Innal hamda wan ni'mata laka wal mulka laa syariika laka.",
+                indo: "Aku penuhi panggilan-Mu ya Allah, aku penuhi panggilan-Mu. Aku penuhi panggilan-Mu, tiada sekutu bagi-Mu, aku penuhi panggilan-Mu. Sesungguhnya segala puji, nikmat, dan kerajaan adalah milik-Mu, tiada sekutu bagi-Mu."
+            }
+        ],
+        'masjid': [
+            {
+                title: "Doa Masuk Masjidil Haram",
+                arabic: "بِسْمِ اللهِ وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُوْلِ اللهِ، اَللَّهُمَّ افْتَحْ لِيْ أَبْوَابَ رَحْمَتِكَ",
+                latin: "Bismillahi wasshalatu wassalamu 'ala rasulillah. Allahummaftah lii abwaba rahmatik.",
+                indo: "Dengan nama Allah, selawat dan salam untuk Rasulullah. Ya Allah, bukakanlah untukku pintu-pintu rahmat-Mu."
+            },
+            {
+                title: "Doa Melihat Ka'bah",
+                arabic: "اللَّهُمَّ زِدْ هَذَا الْبَيْتَ تَشْرِيفًا وَتَعْظِيمًا وَتَكْرِيمًا وَمَهَابَةً",
+                latin: "Allahumma zid hazal baita tasyrifan wa ta'ziman wa takriman wa mahabatan.",
+                indo: "Ya Allah, tambahkanlah kemuliaan, keagungan, kehormatan, dan wibawa pada Baitullah ini."
+            }
+        ],
+        'tawaf': [
+            {
+                title: "Doa Memulai Tawaf (Menghadap Hajar Aswad)",
+                arabic: "بِسْمِ اللَّهِ اللَّهُ أَكْبَرُ",
+                latin: "Bismillahi Allahu Akbar.",
+                indo: "Dengan nama Allah, Allah Maha Besar."
+            },
+            {
+                title: "Doa Antara Rukun Yamani & Hajar Aswad (Sapu Jagat)",
+                arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+                latin: "Rabbanaa aatinaa fid-dunyaa hasanatan wa fil aakhirati hasanatan wa qinaa 'adzaaban-naar.",
+                indo: "Ya Tuhan kami, berilah kami kebaikan di dunia dan kebaikan di akhirat dan peliharalah kami dari siksa neraka."
+            },
+            {
+                title: "Doa Singkat Tawaf (Dibaca Sepanjang Putaran)",
+                arabic: "سُبْحَانَ اللَّهِ، وَالْحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ",
+                latin: "Subhanallah, walhamdulillah, wa laa ilaha illallah, wallahu akbar.",
+                indo: "Maha Suci Allah, segala puji bagi Allah, tiada sesembahan yang berhak disembah selain Allah, dan Allah Maha Besar."
+            }
+        ],
+        'setelah-tawaf': [
+            {
+                title: "Doa di Maqam Ibrahim",
+                arabic: "وَاتَّخِذُوا مِنْ مَقَامِ إِبْرَاهِيمَ مُصَلًّى",
+                latin: "Wattakhidzu min maqami ibrahima musalla.",
+                indo: "Dan jadikanlah sebagian maqam Ibrahim sebagai tempat shalat."
+            },
+            {
+                title: "Doa Minum Air Zamzam",
+                arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا وَاسِعًا وَشِفَاءً مِنْ كُلِّ دَاءٍ",
+                latin: "Allahumma inni as-aluka 'ilman nafi'an, wa rizqan wasi'an, wa syifa'an min kulli da'in.",
+                indo: "Ya Allah, sesungguhnya aku memohon kepada-Mu ilmu yang bermanfaat, rezeki yang luas, dan kesembuhan dari segala penyakit."
+            }
+        ],
+        'sai': [
+            {
+                title: "Doa Saat Mendekati Bukit Shafa",
+                arabic: "إِنَّ الصَّفَا وَالْمَرْوَةَ مِن شَعَائِرِ اللَّهِ ۖ فَمَنْ حَجَّ الْبَيْتَ أَوِ اعْتَمَرَ فَلَا جُنَاحَ عَلَيْهِ أَن يَطَّوَّفَ بِهِمَا ۚ وَمَن تَطَوَّعَ خَيْرًا فَإِنَّ اللَّهَ شَاكِرٌ عَلِيمٌ",
+                latin: "Innas-shafaa wal-marwata min sya'aa'irillaah, faman hajjal-baita awi'tamara falaa junaaha 'alaihi ayyath-thawwafa bihimaa, wa man tathawwa'a khairan fa innallaaha syaakirun 'aliim.",
+                indo: "Sesungguhnya Shafa dan Marwah adalah sebahagian dari syiar Allah. Maka barangsiapa yang beribadah haji ke Baitullah atau berumrah, maka tidak ada dosa baginya mengerjakan sa'i antara keduanya. Dan barangsiapa yang mengerjakan suatu kebajikan dengan kerelaan hati, maka sesungguhnya Allah Maha Mensyukuri kebaikan lagi Maha Mengetahui."
+            },
+            {
+                title: "Doa di Bukit Shafa dan Marwah",
+                arabic: "اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيْكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِيْ وَيُمِيْتُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيْرٌ",
+                latin: "Allahu akbar, Allahu akbar, Allahu akbar. Laa ilaha illallahu wahdahu laa syariikalah, lahul mulku wa lahul hamdu yuhyii wa yumiitu, wa huwa 'alaa kulli syai'in qadiir.",
+                indo: "Allah Maha Besar (3x). Tiada Tuhan yang berhak disembah melainkan Allah Yang Maha Esa, tiada sekutu bagi-Nya, bagi-Nya kerajaan dan bagi-Nya segala pujian. Dia-lah yang menghidupkan dan yang mematikan, dan Dia Maha Kuasa atas segala sesuatu."
+            }
+        ],
+        'tahallul': [
+            {
+                title: "Doa Tahallul (Menggunting Rambut)",
+                arabic: "اللَّهُمَّ اجْعَلْ لِكُلِّ شَعْرَةٍ نُوْراً يَوْمَ الْقِيَامَةِ",
+                latin: "Allahummaj'al likulli sya'ratin nuuran yaumal qiyaamati.",
+                indo: "Ya Allah, jadikanlah untuk setiap helai rambut (yang aku potong) ini cahaya pada hari kiamat."
+            },
+            {
+                title: "Doa Selesai Umrah",
+                arabic: "الْحَمْدُ لِلَّهِ الَّذِي هَدَانَا لِهَذَا وَمَا كُنَّا لِنَهْتَدِيَ لَوْلَا أَنْ هَدَانَا اللَّهُ",
+                latin: "Alhamdulillahi-lladzii hadaanaa lihaadzaa, wamaa kunnaa linahtadiya laulaa an hadaanallah.",
+                indo: "Segala puji bagi Allah yang telah memberikan petunjuk kepada kami ke (kebaikan) ini, dan kami tidak akan mendapat petunjuk sekiranya Allah tidak memberikan petunjuk kepada kami."
+            }
+        ],
+        'nabawi': [
+            {
+                title: "Doa Masuk Masjid Nabawi",
+                arabic: "بِسْمِ اللهِ وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُوْلِ اللهِ، اَللَّهُمَّ افْتَحْ لِيْ أَبْوَابَ رَحْمَتِكَ",
+                latin: "Bismillahi wasshalatu wassalamu 'ala rasulillah. Allahummaftah lii abwaba rahmatik.",
+                indo: "Dengan nama Allah, selawat dan salam untuk Rasulullah. Ya Allah, bukakanlah untukku pintu-pintu rahmat-Mu."
+            },
+            {
+                title: "Salam ke Makam Rasulullah ﷺ",
+                arabic: "اَلسَّلَامُ عَلَيْكَ يَا رَسُوْلَ اللهِ، اَلسَّلَامُ عَلَيْكَ يَا نَبِيَّ اللهِ",
+                latin: "Assalamu'alaika ya Rasulallah, Assalamu'alaika ya Nabiyyallah.",
+                indo: "Keselamatan semoga tercurah kepadamu wahai utusan Allah, keselamatan semoga tercurah kepadamu wahai Nabi Allah."
+            }
+        ]
+    };
+
+    // State Variables
+    let currentArabicFontSize = 2.0; // rem
+    let currentCount = 0;
+    let currentCategory = '';
+
+    // Elements
+    const homeView = document.getElementById('homeView');
+    const detailView = document.getElementById('detailView');
+    const backBtn = document.getElementById('backBtn');
+    const fontControls = document.getElementById('fontControls');
+    const headerTitle = document.getElementById('headerTitle');
+    const contentScroll = document.getElementById('contentScroll');
+    const counterFooter = document.getElementById('counterFooter');
+    const counterValue = document.getElementById('counterValue');
+    const counterLabel = document.getElementById('counterLabel');
+
+    // Functions
+    function openCategory(categoryKey, title) {
+        currentCategory = categoryKey;
+        headerTitle.innerText = title;
+        
+        // Hide Home, Show Details
+        homeView.classList.remove('active');
+        detailView.classList.add('active');
+        backBtn.style.display = 'block';
+        fontControls.style.display = 'flex';
+        
+        // Generate Content
+        contentScroll.innerHTML = '';
+        const data = doaData[categoryKey];
+        
+        data.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'prayer-card';
+            card.innerHTML = `
+                <div class="prayer-title">${item.title}</div>
+                <div class="arabic-text" style="font-size: ${currentArabicFontSize}rem;">${item.arabic}</div>
+                <div class="latin-text">${item.latin}</div>
+                <div class="translation-text">"${item.indo}"</div>
+            `;
+            contentScroll.appendChild(card);
+        });
+
+        // Show/Hide Counter based on category
+        if(categoryKey === 'tawaf' || categoryKey === 'sai') {
+            counterFooter.style.display = 'flex';
+            counterLabel.innerText = categoryKey === 'tawaf' ? 'Putaran Tawaf' : 'Perjalanan Sa\'i';
+            resetCounter(); // Reset when opening
+        } else {
+            counterFooter.style.display = 'none';
+        }
+        
+        // Scroll to top
+        contentScroll.scrollTop = 0;
+    }
+
+    function goHome() {
+        headerTitle.innerText = 'Doa Umrah Pro';
+        detailView.classList.remove('active');
+        homeView.classList.add('active');
+        backBtn.style.display = 'none';
+        fontControls.style.display = 'none';
+        counterFooter.style.display = 'none';
+    }
+
+    function changeFontSize(change) {
+        currentArabicFontSize += change;
+        // Limit font size bounds
+        if(currentArabicFontSize < 1.5) currentArabicFontSize = 1.5;
+        if(currentArabicFontSize > 3.5) currentArabicFontSize = 3.5;
+        
+        const arabicElements = document.querySelectorAll('.arabic-text');
+        arabicElements.forEach(el => {
+            el.style.fontSize = `${currentArabicFontSize}rem`;
+        });
+    }
+
+    function incrementCounter() {
+        if(currentCount < 7) {
+            currentCount++;
+            counterValue.innerText = currentCount;
+            
+            // Haptic Feedback if supported by browser/device
+            if (window.navigator && window.navigator.vibrate) {
+                window.navigator.vibrate(50); // Vibrate for 50ms
+            }
+
+            // Optional: alert when finished
+            if(currentCount === 7) {
+                if (window.navigator && window.navigator.vibrate) {
+                    window.navigator.vibrate([100, 50, 100]); // Vibrate longer when done
+                }
+                setTimeout(() => {
+                    alert('Alhamdulillah, Anda telah menyelesaikan 7 hitungan.');
+                }, 300);
+            }
+        }
+    }
+
+    function resetCounter() {
+        currentCount = 0;
+        counterValue.innerText = currentCount;
+    }
+</script>
+
+</body>
+</html>
