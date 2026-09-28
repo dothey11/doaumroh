@@ -183,6 +183,7 @@
             margin-bottom: 16px;
             border-bottom: 1px solid #E5E7EB;
             padding-bottom: 8px;
+            font-weight: 700;
         }
 
         .arabic-text {
@@ -193,6 +194,7 @@
             margin-bottom: 20px;
             color: var(--text-main);
             direction: rtl;
+            white-space: pre-line;
         }
 
         .latin-text {
@@ -361,6 +363,15 @@
                     <p>Masuk masjid & salam ke makam Rasulullah.</p>
                 </div>
             </div>
+
+            <!-- MENU BARU: SHOLAT JENAZAH -->
+            <div class="menu-card" onclick="openCategory('jenazah', 'Sholat Jenazah')">
+                <div class="menu-icon"><i class="fa-solid fa-hands-praying"></i></div>
+                <div class="menu-text">
+                    <h3>Sholat Jenazah</h3>
+                    <p>Niat, 4 takbir, doa jenazah, & salam.</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -503,6 +514,39 @@
                 arabic: "اَسَّلَامُ عَلَيْكَ يَا رَسُولَ اللهِ، اَسَّلَامُ عَلَيْكَ يَا نَبِيَّ اللهِ، اَسَّلَامُ عَلَيْكَ يَا خِيَرَةَ اللهِ مِنْ خَلْقِهِ",
                 latin: "Assalamu'alaika ya Rasulallah, assalamu'alaika ya nabiyallah, assalamu'alaika ya khairatal lah min khalqihi.",
                 indo: "Keselamatan atasmu, wahai Rasulullah. Keselamatan atasmu, wahai Nabi Allah. Keselamatan atasmu, wahai pilihan Allah dari makhluk-Nya."
+            }
+        ],
+        // DATA BARU: SHOLAT JENAZAH
+        'jenazah': [
+            {
+                title: "1. Niat & Takbir Pertama (Lalu Membaca Al-Fatihah)",
+                arabic: "أُصَلِّى عَلَى هَذَا الْمَيِّتِ أَرْبَعَ تَكْبِيرَاتٍ فَرْضَ الْكَفَايَةِ مَأْمُومًا لِلَّهِ تَعَالَى\n\n(Dilanjutkan membaca Surat Al-Fatihah)",
+                latin: "Ushalli 'alal haadzal mayyiti arba'a takbiiraatin fardhal kifaayati ma'muuman lillaahi ta'aalaa.",
+                indo: "Aku berniat sholat atas jenazah (laki-laki) ini empat takbir fardhu kifayah sebagai makmum karena Allah Ta'ala. (Catatan: Bila jenazah perempuan, 'haadzal mayyiti' diganti 'haadzihil mayyitati')."
+            },
+            {
+                title: "2. Takbir Kedua (Membaca Shalawat)",
+                arabic: "اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ",
+                latin: "Allahumma salli 'alaa sayyidinaa muhammad wa 'alaa aali sayyidinaa muhammad.",
+                indo: "Ya Allah, limpahkanlah rahmat kepada Nabi Muhammad dan keluarga Nabi Muhammad."
+            },
+            {
+                title: "3. Takbir Ketiga (Mendoakan Jenazah)",
+                arabic: "اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ وَعَافِهِ وَاعْفُ عَنْهُ",
+                latin: "Allahummaghfir lahu warhamhu wa 'aafihi wa'fu 'anhu.",
+                indo: "Ya Allah, ampunilah dia, rahmatilah dia, selamatkanlah dia, dan maafkanlah kesalahannya. (Catatan: Bila jenazah perempuan, akhiran '-hu' diganti menjadi '-ha')."
+            },
+            {
+                title: "4. Takbir Keempat (Doa Sebelum Salam)",
+                arabic: "اللَّهُمَّ لَا تَحْرِمْنَا أَجْرَهُ وَلَا تَفْتِنَّا بَعْدَهُ وَاغْفِرْ لَنَا وَلَهُ",
+                latin: "Allahumma laa tahrimnaa ajrahu wa laa taftinnaa ba'dahu waghfir lanaa walahu.",
+                indo: "Ya Allah, janganlah Engkau haramkan kami dari pahalanya, dan janganlah Engkau beri fitnah (cobaan) bagi kami sepeninggalannya, serta ampunilah kami dan dia."
+            },
+            {
+                title: "5. Salam",
+                arabic: "اَلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ",
+                latin: "Assalaamu'alaikum warahmatullaahi wabarakaatuh.",
+                indo: "Semoga keselamatan, rahmat Allah, dan berkah-Nya senantiasa tercurah kepada kalian."
             }
         ]
     };
