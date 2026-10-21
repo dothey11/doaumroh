@@ -150,6 +150,7 @@
             align-items: center;
             font-size: 1.5rem;
             margin-right: 16px;
+            flex-shrink: 0;
         }
 
         .menu-text h3 {
@@ -160,6 +161,7 @@
         .menu-text p {
             font-size: 0.85rem;
             color: var(--text-muted);
+            line-height: 1.4;
         }
 
         /* Detail View Styles */
@@ -207,7 +209,7 @@
 
         .translation-text {
             color: var(--text-muted);
-            line-height: 1.5;
+            line-height: 1.6;
             font-size: 0.95rem;
         }
 
@@ -285,6 +287,16 @@
             font-size: 0.9rem;
             line-height: 1.5;
         }
+        
+        .section-divider {
+            margin: 24px 0 12px 0;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-left: 4px;
+        }
     </style>
 </head>
 <body>
@@ -307,12 +319,34 @@
         <div class="instruction">
             Pilih panduan doa berdasarkan tahapan ibadah Umrah Anda.
         </div>
+        
         <div class="menu-grid">
-            <div class="menu-card" onclick="openCategory('persiapan', 'Niat & Persiapan')">
+            
+            <div class="section-divider">Rute Perjalanan</div>
+            
+            <div class="menu-card" onclick="openCategory('safar', 'Perjalanan (Safar)')">
+                <div class="menu-icon"><i class="fa-solid fa-plane-departure"></i></div>
+                <div class="menu-text">
+                    <h3>Perjalanan (Safar)</h3>
+                    <p>Doa keluar rumah, naik kendaraan, & tiba.</p>
+                </div>
+            </div>
+
+            <div class="menu-card" onclick="openCategory('kota', 'Masuk Kota Suci')">
+                <div class="menu-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                <div class="menu-text">
+                    <h3>Masuk Kota Suci</h3>
+                    <p>Doa saat memasuki Makkah & Madinah.</p>
+                </div>
+            </div>
+
+            <div class="section-divider">Inti Ibadah Umrah</div>
+
+            <div class="menu-card" onclick="openCategory('persiapan', 'Niat di Miqat')">
                 <div class="menu-icon"><i class="fa-solid fa-suitcase-rolling"></i></div>
                 <div class="menu-text">
-                    <h3>Niat & Persiapan</h3>
-                    <p>Doa Safar, Niat Umrah, dan Talbiyah.</p>
+                    <h3>Niat di Miqat</h3>
+                    <p>Niat Umrah dan bacaan Talbiyah.</p>
                 </div>
             </div>
 
@@ -356,6 +390,35 @@
                 </div>
             </div>
 
+            <div class="section-divider">Amalan & Sunnah Lainnya</div>
+
+            <!-- MENU BARU: SHOLAT KHUSUS UMRAH -->
+            <div class="menu-card" onclick="openCategory('sholat_khusus', 'Sholat Khusus Umrah')">
+                <div class="menu-icon"><i class="fa-solid fa-pray"></i></div>
+                <div class="menu-text">
+                    <h3>Sholat Khusus Umrah</h3>
+                    <p>Shalat sunnah Ihram, Tawaf, Hijr Ismail, dll.</p>
+                </div>
+            </div>
+
+            <!-- MENU BARU: SHOLAT HARIAN -->
+            <div class="menu-card" onclick="openCategory('sholat_harian', 'Sholat Sunnah Harian')">
+                <div class="menu-icon"><i class="fa-solid fa-clock"></i></div>
+                <div class="menu-text">
+                    <h3>Sholat Sunnah Harian</h3>
+                    <p>Syuruq, Rawatib, Tahajud, Dhuha, dll.</p>
+                </div>
+            </div>
+
+            <!-- MENU BARU: SUNNAH LAINNYA -->
+            <div class="menu-card" onclick="openCategory('sunnah_lain', 'Sunnah-Sunnah Lainnya')">
+                <div class="menu-icon"><i class="fa-solid fa-star"></i></div>
+                <div class="menu-text">
+                    <h3>Sunnah-sunnah Lainnya</h3>
+                    <p>Amalan Ihram, Tawaf, Sa'i, & Kota Suci.</p>
+                </div>
+            </div>
+
             <div class="menu-card" onclick="openCategory('nabawi', 'Masjid Nabawi')">
                 <div class="menu-icon"><i class="fa-solid fa-moon"></i></div>
                 <div class="menu-text">
@@ -364,7 +427,6 @@
                 </div>
             </div>
 
-            <!-- MENU BARU: SHOLAT JENAZAH -->
             <div class="menu-card" onclick="openCategory('jenazah', 'Sholat Jenazah')">
                 <div class="menu-icon"><i class="fa-solid fa-hands-praying"></i></div>
                 <div class="menu-text">
@@ -372,6 +434,7 @@
                     <p>Niat, 4 takbir, doa jenazah, & salam.</p>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -399,6 +462,40 @@
 <script>
     // Database Doa Lengkap
     const doaData = {
+        'safar': [
+            {
+                title: "Doa Keluar Rumah",
+                arabic: "بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+                latin: "Bismillahi, tawakkaltu 'alallah, wa laa haula wa laa quwwata illaa billaah.",
+                indo: "Dengan nama Allah, aku bertawakkal kepada Allah. Tiada daya dan kekuatan kecuali dengan (pertolongan) Allah."
+            },
+            {
+                title: "Doa Naik Kendaraan",
+                arabic: "سُبْحَانَ الَّذِى سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ",
+                latin: "Subhaanal ladzii sakh-khara lanaa haadzaa wa maa kunnaa lahu muqriniin. Wa innaa ilaa rabbinaa lamun-qalibuun.",
+                indo: "Maha Suci Tuhan yang telah menundukkan kendaraan ini bagi kami padahal kami sebelumnya tidak mampu menguasainya, dan sesungguhnya kami akan kembali kepada Tuhan kami."
+            },
+            {
+                title: "Doa Tiba di Tempat Tujuan",
+                arabic: "اَللَّهُمَّ إِنِّى أَسْأَلُكَ خَيْرَهَا وَخَيْرَ أَهْلِهَا وَخَيْرَ مَا فِيْهَا وَأَعُوْذُ بِكَ مِنْ شَرِّهَا وَشَرِّ أَهْلِهَا وَشَرِّ مَا فِيْهَا",
+                latin: "Allahumma inni as-aluka khairaha wa khaira ahliha wa khaira ma fiha, wa a'udzu bika min syarriha wa syarri ahliha wa syarri ma fiha.",
+                indo: "Ya Allah, saya memohon kepada-Mu kebaikan negeri ini, kebaikan penduduknya, serta kebaikan yang ada di dalamnya. Dan saya berlindung kepada-Mu dari keburukan negeri ini, keburukan penduduknya, serta keburukan yang ada di dalamnya."
+            }
+        ],
+        'kota': [
+            {
+                title: "Doa Memasuki Kota Makkah",
+                arabic: "اَللَّهُمَّ هَذَا حَرَمُكَ وَأَمْنُكَ فَحَرِّمْنِيْ عَلَى النَّارِ، وَأَمِنِّيْ مِنْ عَذَابِكَ يَوْمَ تَبْعَثُ عِبَادَكَ، وَاجْعَلْنِيْ مِنْ أَوْلِيَائِكَ وَأَهْلِ طَاعَتِكَ",
+                latin: "Allahumma hadza haramuka wa amnuka faharramni 'alan naar, wa aminni min 'adzabika yauma tab'atsu 'ibadak, waj'alni min auliya'ika wa ahli tha'atik.",
+                indo: "Ya Allah, kota ini adalah tanah haram-Mu dan tempat aman-Mu, maka hindarkanlah aku dari api neraka, amankanlah aku dari siksa-Mu pada hari Engkau membangkitkan hamba-hamba-Mu, dan jadikanlah aku termasuk kekasih-Mu dan orang yang taat kepada-Mu."
+            },
+            {
+                title: "Doa Memasuki Kota Madinah",
+                arabic: "اَللَّهُمَّ هَذَا حَرَمُ رَسُوْلِكَ، وَاجْعَلْهُ لِي وِقَايَةً مِنَ النَّارِ، وَأَمَانًا مِنَ الْعَذَابِ، وَسُوْءِ الْحِسَابِ",
+                latin: "Allahumma hadza haramu rasulika, waj'alhu li wiqayatan minan naar, wa amanan minal 'adzab, wa su'il hisab.",
+                indo: "Ya Allah, ini adalah tanah haram Rasul-Mu, maka jadikanlah ia sebagai penjaga bagiku dari neraka, dan keamanan dari siksaan serta buruknya hisab (perhitungan amal)."
+            }
+        ],
         'persiapan': [
             {
                 title: "Niat Umrah",
@@ -502,6 +599,72 @@
                 indo: "Segala puji bagi Allah yang telah memberikan petunjuk kepada kami ke (kebaikan) ini, dan kami tidak akan mendapat petunjuk sekiranya Allah tidak memberikan petunjuk kepada kami."
             }
         ],
+        'sholat_khusus': [
+            {
+                title: "Shalat Sunnah Ihram",
+                indo: "Dikerjakan 2 rakaat sebelum melafalkan niat ihram. Biasanya dilakukan di masjid tempat Miqat (seperti Bir Ali, Ji'ranah, atau Qarnul Manazil)."
+            },
+            {
+                title: "Shalat Sunnah Tawaf",
+                indo: "Dikerjakan 2 rakaat tepat setelah menyelesaikan 7 putaran Tawaf. Tempat utamanya adalah di belakang Maqam Ibrahim. Rakaat pertama disunnahkan membaca Al-Kafirun, rakaat kedua Al-Ikhlas."
+            },
+            {
+                title: "Shalat di Hijr Ismail (Makkah)",
+                indo: "Area setengah lingkaran di samping Ka'bah ini berstatus bagian dari dalam Ka'bah. Shalat sunnah mutlaq 2 rakaat di sini sangat dianjurkan dan menjadi incaran banyak jemaah."
+            },
+            {
+                title: "Shalat di Raudhah (Madinah)",
+                indo: "Mengerjakan shalat sunnah 2 rakaat di area berkarpet hijau (antara makam Nabi dan mimbar) di Masjid Nabawi yang merupakan tempat mustajab (Taman Surga)."
+            },
+            {
+                title: "Shalat di Masjid Quba (Madinah)",
+                indo: "Shalat sunnah 2 rakaat di masjid ini memiliki keutamaan luar biasa. Jika Anda bersuci (wudhu) dari hotel/penginapan dan shalat di masjid ini, pahalanya setara dengan mengerjakan satu kali ibadah umrah."
+            }
+        ],
+        'sholat_harian': [
+            {
+                title: "Shalat Syuruq (Isyraq)",
+                indo: "Jika Anda shalat Subuh berjamaah di masjid, lalu duduk berdzikir/membaca Al-Qur'an hingga matahari terbit (sekitar 15 menit setelah waktu terbit), lalu ditutup dengan shalat 2 rakaat. Pahalanya seperti haji dan umrah yang sempurna."
+            },
+            {
+                title: "Shalat Rawatib",
+                indo: "Shalat sunnah yang mengiringi shalat fardhu (Qobliyah/sebelum dan Ba'diyah/sesudah), terutama 2 rakaat sebelum Subuh yang nilainya 'lebih baik dari dunia dan seisinya'."
+            },
+            {
+                title: "Shalat Tahajud & Witir (Qiyamul Lail)",
+                indo: "Sangat dianjurkan untuk datang ke masjid lebih awal pada sepertiga malam terakhir (sebelum Subuh) untuk melaksanakan shalat malam."
+            },
+            {
+                title: "Shalat Dhuha",
+                indo: "Dikerjakan pada pagi hari. Biasanya dikerjakan saat jemaah beristirahat di hotel atau saat menunggu waktu Dzuhur di masjid."
+            },
+            {
+                title: "Shalat Tahiyatul Masjid",
+                indo: "Dikerjakan 2 rakaat setiap kali masuk masjid (seperti Masjid Nabawi). Namun khusus untuk Masjidil Haram, 'tahiyatul masjid'-nya yang paling utama adalah melakukan Tawaf. Jika sedang tidak ingin Tawaf, bisa diganti shalat tahiyatul masjid biasa."
+            },
+            {
+                title: "Shalat Sunnah Mutlaq",
+                indo: "Shalat sunnah 2 rakaat tanpa sebab tertentu yang bisa Anda lakukan kapan saja (kecuali di waktu terlarang seperti tepat saat matahari terbit/tenggelam) semata-mata untuk memperbanyak sujud di Tanah Suci."
+            }
+        ],
+        'sunnah_lain': [
+            {
+                title: "Sunnah Sebelum dan Saat Berihram",
+                indo: "• Membersihkan Diri: Memotong kuku, merapikan kumis, mencabut bulu ketiak, dan mencukur bulu kemaluan sebelum mandi.\n• Mandi Sunnah Ihram: Mandi besar sebelum mengenakan pakaian ihram.\n• Memakai Wewangian: Sunnah bagi laki-laki memakai parfum pada tubuh (bukan pada kain ihram) sebelum melafalkan niat ihram.\n• Pakaian Putih: Memakai dua helai kain ihram berwarna putih bersih bagi laki-laki.\n• Memperbanyak Talbiyah: Mengumandangkan Talbiyah sejak niat ihram hingga memulai Tawaf."
+            },
+            {
+                title: "Sunnah Saat Melaksanakan Tawaf",
+                indo: "• Idhtiba': Membuka bahu kanan dan menyelempangkan kain ihram di bawah ketiak kanan (khusus laki-laki) selama 7 putaran.\n• Ramal: Berlari-lari kecil pada 3 putaran pertama, dan berjalan biasa pada 4 putaran berikutnya (khusus laki-laki).\n• Istilam: Mencium atau mengusap Hajar Aswad, atau memberi isyarat dari jauh jika kondisi penuh sesak.\n• Mengusap Rukun Yamani: Menyentuh sudut Rukun Yamani setiap putaran tanpa menciumnya.\n• Minum Air Zamzam: Minum sampai kenyang menghadap kiblat sambil berdoa sebelum menuju tempat Sa'i."
+            },
+            {
+                title: "Sunnah Saat Melaksanakan Sa'i",
+                indo: "• Dalam Keadaan Suci: Disunnahkan mengerjakan Sa'i dalam keadaan berwudhu, meskipun sah dilakukan tanpa wudhu atau sedang haid.\n• Mendaki Bukit: Naik ke atas bukit Shafa dan Marwah hingga bisa melihat Ka'bah (jika memungkinkan).\n• Menghadap Kiblat: Berdoa menghadap kiblat di atas bukit Shafa dan Marwah dengan mengangkat tangan.\n• Berlari Kecil (Khabab): Berlari-lari kecil di antara dua pilar lampu neon hijau khusus bagi laki-laki."
+            },
+            {
+                title: "Amalan Sunnah Selama di Tanah Suci",
+                indo: "• Tawaf Sunnah: Melakukan Tawaf tanpa ihram/sa'i kapan saja dengan pakaian biasa selama di Makkah.\n• Mengejar Tempat Mustajab: Berdoa khusus di Multazam (antara Hajar Aswad dan pintu Ka'bah) dan di Raudhah.\n• Menjaga Shalat Berjamaah: Selalu mengusahakan shalat wajib 5 waktu berjamaah di Masjidil Haram (pahala 100.000x lipat) dan Masjid Nabawi (pahala 1.000x lipat)."
+            }
+        ],
         'nabawi': [
             {
                 title: "Doa Masuk Masjid Nabawi",
@@ -516,7 +679,6 @@
                 indo: "Keselamatan atasmu, wahai Rasulullah. Keselamatan atasmu, wahai Nabi Allah. Keselamatan atasmu, wahai pilihan Allah dari makhluk-Nya."
             }
         ],
-        // DATA BARU: SHOLAT JENAZAH
         'jenazah': [
             {
                 title: "1. Niat & Takbir Pertama (Lalu Membaca Al-Fatihah)",
@@ -585,12 +747,21 @@
         data.forEach(item => {
             const card = document.createElement('div');
             card.className = 'prayer-card';
-            card.innerHTML = `
-                <div class="prayer-title">${item.title}</div>
-                <div class="arabic-text" style="font-size: ${currentArabicFontSize}rem;">${item.arabic}</div>
-                <div class="latin-text">${item.latin}</div>
-                <div class="translation-text">"${item.indo}"</div>
-            `;
+            
+            // Logika render dinamis: Jika tidak ada text Arab/Latin, tidak perlu membuat elemennya agar rapi.
+            let htmlContent = `<div class="prayer-title">${item.title}</div>`;
+            
+            if(item.arabic) {
+                htmlContent += `<div class="arabic-text" style="font-size: ${currentArabicFontSize}rem;">${item.arabic}</div>`;
+            }
+            if(item.latin) {
+                htmlContent += `<div class="latin-text">${item.latin}</div>`;
+            }
+            if(item.indo) {
+                htmlContent += `<div class="translation-text">${item.indo}</div>`;
+            }
+
+            card.innerHTML = htmlContent;
             contentScroll.appendChild(card);
         });
 
@@ -608,7 +779,7 @@
     }
 
     function goHome() {
-        headerTitle.innerText = 'Doa Umrah Pro';
+        headerTitle.innerText = 'Doa Umrah Pro [by Dothey]';
         detailView.classList.remove('active');
         homeView.classList.add('active');
         backBtn.style.display = 'none';
