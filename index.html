@@ -37,7 +37,7 @@
             justify-content: center;
         }
 
-        /* Mobile Container to simulate app view on desktop */
+        /* Mobile Container */
         #app-container {
             width: 100%;
             max-width: 480px;
@@ -168,7 +168,7 @@
         .content-scroll {
             flex-grow: 1;
             overflow-y: auto;
-            padding-bottom: 100px; /* Space for counter if exists */
+            padding-bottom: 100px;
         }
 
         .prayer-card {
@@ -188,15 +188,47 @@
             font-weight: 700;
         }
 
+        /* AUDIO & ARABIC WRAPPER */
+        .arabic-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .play-btn {
+            background-color: #E0F2FE;
+            color: var(--primary);
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s;
+            margin-top: 5px;
+            box-shadow: 0 2px 5px rgba(13,148,136,0.2);
+        }
+
+        .play-btn:active {
+            background-color: var(--primary);
+            color: white;
+            transform: scale(0.9);
+        }
+
         .arabic-text {
             font-family: 'Amiri', serif;
-            font-size: 2rem; /* default */
+            font-size: 2rem;
             line-height: 2.2;
             text-align: right;
-            margin-bottom: 20px;
             color: var(--text-main);
             direction: rtl;
             white-space: pre-line;
+            flex-grow: 1;
         }
 
         .latin-text {
@@ -280,14 +312,6 @@
             margin-top: 5px;
         }
 
-        .instruction {
-            text-align: center;
-            padding: 20px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        
         .section-divider {
             margin: 24px 0 12px 0;
             font-size: 0.9rem;
@@ -307,7 +331,7 @@
         <button class="back-btn" id="backBtn" onclick="goHome()">
             <i class="fa-solid fa-arrow-left"></i>
         </button>
-        <div class="header-title" id="headerTitle">Doa Umrah Pro [by Dothey]</div>
+        <div class="header-title" id="headerTitle">Doa Umrah Pro</div>
         <div class="font-controls" id="fontControls">
             <button class="font-btn" onclick="changeFontSize(-0.2)">A-</button>
             <button class="font-btn" onclick="changeFontSize(0.2)">A+</button>
@@ -316,12 +340,8 @@
 
     <!-- Home View -->
     <div id="homeView" class="view active">
-        <div class="instruction">
-            Pilih panduan doa berdasarkan tahapan ibadah Umrah Anda.
-        </div>
         
         <div class="menu-grid">
-            
             <div class="section-divider">Rute Perjalanan</div>
             
             <div class="menu-card" onclick="openCategory('safar', 'Perjalanan (Safar)')">
@@ -346,7 +366,7 @@
                 <div class="menu-icon"><i class="fa-solid fa-suitcase-rolling"></i></div>
                 <div class="menu-text">
                     <h3>Niat di Miqat</h3>
-                    <p>Niat Umrah dan bacaan Talbiyah.</p>
+                    <p>Niat Umrah (biasa & isytirat) dan Talbiyah.</p>
                 </div>
             </div>
 
@@ -362,7 +382,7 @@
                 <div class="menu-icon"><i class="fa-solid fa-kaaba"></i></div>
                 <div class="menu-text">
                     <h3>Tawaf</h3>
-                    <p>Doa putaran 1-7 dan penghitung otomatis.</p>
+                    <p>Doa putaran 1-7 (Kemenag) & Sapu Jagat.</p>
                 </div>
             </div>
 
@@ -378,7 +398,7 @@
                 <div class="menu-icon"><i class="fa-solid fa-shoe-prints"></i></div>
                 <div class="menu-text">
                     <h3>Sa'i</h3>
-                    <p>Doa di Shafa & Marwah serta penghitung.</p>
+                    <p>Doa Shafa-Marwah & Putaran 1-7 (Kemenag).</p>
                 </div>
             </div>
 
@@ -392,7 +412,6 @@
 
             <div class="section-divider">Amalan & Sunnah Lainnya</div>
 
-            <!-- MENU BARU: SHOLAT KHUSUS UMRAH -->
             <div class="menu-card" onclick="openCategory('sholat_khusus', 'Sholat Khusus Umrah')">
                 <div class="menu-icon"><i class="fa-solid fa-pray"></i></div>
                 <div class="menu-text">
@@ -401,7 +420,6 @@
                 </div>
             </div>
 
-            <!-- MENU BARU: SHOLAT HARIAN -->
             <div class="menu-card" onclick="openCategory('sholat_harian', 'Sholat Sunnah Harian')">
                 <div class="menu-icon"><i class="fa-solid fa-clock"></i></div>
                 <div class="menu-text">
@@ -410,7 +428,6 @@
                 </div>
             </div>
 
-            <!-- MENU BARU: SUNNAH LAINNYA -->
             <div class="menu-card" onclick="openCategory('sunnah_lain', 'Sunnah-Sunnah Lainnya')">
                 <div class="menu-icon"><i class="fa-solid fa-star"></i></div>
                 <div class="menu-text">
@@ -498,10 +515,16 @@
         ],
         'persiapan': [
             {
-                title: "Niat Umrah",
+                title: "Niat Umrah (Umum)",
                 arabic: "لَنَوَيْتُ الْعُمْرَةَ وَأَحْرَمْتُ بِهَا لِلَّهِ تَعَالَى",
                 latin: "Nawaitul 'umrata wa ahramtu biha lillahi ta'ala.",
                 indo: "Aku berniat melaksanakan umroh dan berihram karena Allah Ta'ala."
+            },
+            {
+                title: "Niat Umrah Bersyarat (Isytirat)",
+                arabic: "نَوَيْتُ العُمْرَةَ وَأَحْرَمْتُ بِهَا لِلهِ تَعَالَى، فَإِنْ حَبَسَنِي حَابِسٌ فَمَحِلِّي حَيْثُ حَبَسْتَنِي",
+                latin: "Nawaitul 'umrata wa ahramtu biha lillahi ta'ala. Fa-in habasani habisun, fa-mahilliy haitsu habastani.",
+                indo: "Aku niat umrah dan berihram karena Allah Ta'ala. Namun jika ada sesuatu yang menghalangiku (sakit/rintangan), maka tempat tahallul-ku adalah di tempat Engkau menahanku."
             },
             {
                 title: "Bacaan Talbiyah",
@@ -512,18 +535,11 @@
         ],
         'masjid': [
             {
-                title: "Doa Masuk Masjidil Haram (1)",
+                title: "Doa Masuk Masjidil Haram",
                 arabic: "بِسْمِ اللهِ وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُوْلِ اللهِ، اَللَّهُمَّ افْتَحْ لِيْ أَبْوَابَ رَحْمَتِكَ",
                 latin: "Bismillahi wasshalatu wassalamu 'ala rasulillah. Allahummaftah lii abwaba rahmatik.",
                 indo: "Dengan nama Allah, selawat dan salam untuk Rasulullah. Ya Allah, bukakanlah untukku pintu-pintu rahmat-Mu."
             },
-            {
-                title: "Doa Masuk Masjidil Haram (2)",
-                arabic: "أَللَّهُمَّ أَنْتَ السَّلاَمُ، وَمِنْكَ السَّلاَمُ، فَحَيِّنَا رَبَّنَا بِالسَّلاَمِ، وَأَدْخِلْنَا الْجَنَّةَ دَارَ السَّلاَمِ، تَبَارَكْتَ رَبَّنَا وَتَعَالَيْتَ يَا ذَا الْجَلَالِ وَالإِكْرَامِ. أَللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ، بِسْمِ اللهِ، وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُولِ اللهِ",
-                latin: "Allahumma antas salam, wa minkas salam, fa hayyina rabbana bis salam, wa adkhilnal jannata daras salam, tabarakta rabbana wa ta'ala ya dzal jalali wal ikram. Allahumma fhtah li abwaba rahmatika, bismillahi, was shalatu was salamu 'ala rasulillah.",
-                indo: "Ya Allah, Engkau adalah zat yang Maha Sejahtera, dan dari-Mu lah kesejahteraan, maka hidupkanlah kami, wahai Tuhan kami, dengan kesejahteraan, dan masukkanlah kami ke surga (Darussalam). Maha Suci Engkau, wahai Tuhan kami, dan Maha Tinggi Engkau, wahai Zat yang memiliki keagungan dan kemuliaan. Ya Allah, bukakanlah untukku pintu-pintu rahmat-Mu. Dengan nama Allah, serta shalawat dan salam semoga tercurah kepada Rasulullah."
-            },
-            
             {
                 title: "Doa Melihat Ka'bah",
                 arabic: "اللَّهُمَّ زِدْ هَذَا الْبَيْتَ تَشْرِيفًا وَتَعْظِيمًا وَتَكْرِيمًا وَمَهَابَةً",
@@ -539,16 +555,52 @@
                 indo: "Dengan nama Allah, Allah Maha Besar."
             },
             {
-                title: "Doa Antara Rukun Yamani & Hajar Aswad (Sapu Jagat)",
+                title: "Doa Tawaf Putaran 1 (Panduan Kemenag)",
+                arabic: "سُبْحَانَ اللَّهِ، وَالْحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ العَلِيِّ العَظِيْمِ. وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُوْلِ اللهِ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ",
+                latin: "Subhaanallaahi walhamdulillaahi wa laa ilaaha illallaahu wallaahu akbar, wa laa hawla wa laa quwwata illaa billaahil 'aliyyil 'azhiim. Wash-shalaatu was-salaamu 'alaa rasuulillaahi shallallaahu 'alaihi wa sallam.",
+                indo: "Maha Suci Allah, segala puji bagi Allah, tidak ada Tuhan selain Allah, Allah Maha Besar, dan tiada daya dan kekuatan kecuali dengan pertolongan Allah Yang Maha Tinggi lagi Maha Agung. Shalawat dan salam senantiasa tercurah kepada Rasulullah ﷺ."
+            },
+            {
+                title: "Doa Tawaf Putaran 2 (Panduan Kemenag)",
+                arabic: "اللَّهُمَّ إِنَّ هَذَا البَيْتَ بَيْتُكَ، وَالحَرَمَ حَرَمُكَ، وَالأَمْنَ أَمْنُكَ، وَالعَبْدَ عَبْدُكَ...",
+                latin: "Allahumma inna haadzal baita baituka, wal harama haramuka, wal amna amnuka, wal 'abda 'abduka...",
+                indo: "Ya Allah, sesungguhnya rumah ini adalah rumah-Mu, tanah haram ini adalah tanah haram-Mu, keamanan ini adalah keamanan dari-Mu, dan hamba ini adalah hamba-Mu..."
+            },
+            {
+                title: "Doa Tawaf Putaran 3 (Panduan Kemenag)",
+                arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الشَّكِّ وَالشِّرْكِ وَالشِّقَاقِ وَالنِّفَاقِ وَسُوءِ الأَخْلَاقِ...",
+                latin: "Allahumma inni a'udzu bika minasy-syakki wasy-syirki wasy-syiqaaqi wan-nifaaqi wa suu-il akhlaaqi...",
+                indo: "Ya Allah, aku berlindung kepada-Mu dari keraguan, kemusyrikan, perpecahan, kemunafikan, dan akhlak yang buruk..."
+            },
+            {
+                title: "Doa Tawaf Putaran 4 (Panduan Kemenag)",
+                arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ وَالْمُعَافَاةَ الدَّائِمَةَ فِي الدِّينِ وَالدُّنْيَا وَالْآخِرَةِ",
+                latin: "Allahumma inni as'alukal 'afwa wal 'aafiyata wal mu'aafaatad daa-imata fid diini wad dunyaa wal aakhirah.",
+                indo: "Ya Allah, aku memohon ampunan, kesehatan, dan perlindungan yang kekal dalam agama, dunia, dan akhirat."
+            },
+            {
+                title: "Doa Tawaf Putaran 5 (Panduan Kemenag)",
+                arabic: "اللَّهُمَّ أَظِلَّنِي تَحْتَ ظِلِّ عَرْشِكَ يَوْمَ لَا ظِلَّ إِلَّا ظِلُّكَ",
+                latin: "Allahumma adhillanii tahta dhilli 'arsyika yauma laa dhilla illaa dhilluk.",
+                indo: "Ya Allah, lindungilah aku di bawah naungan 'Arsy-Mu pada hari tidak ada naungan selain naungan-Mu."
+            },
+            {
+                title: "Doa Tawaf Putaran 6 (Panduan Kemenag)",
+                arabic: "اللَّهُمَّ إِنَّ لَكَ عَلَيَّ حُقُوقًا كَثِيرَةً فِيمَا بَيْنِي وَبَيْنَكَ، وَحُقُوقًا كَثِيرَةً فِيمَا بَيْنِي وَبَيْنَ خَلْقِكَ، اللَّهُمَّ مَا كَانَ لَكَ مِنْهَا فَاغْفِرْهُ لِي",
+                latin: "Allahumma inna laka 'alayya huquuqan katsiiratan fiimaa bainii wa bainaka, wa huquuqan katsiiratan fiimaa bainii wa baina khalqika, Allahumma maa kaana laka minhaa faghfirhu lii.",
+                indo: "Ya Allah, sesungguhnya Engkau mempunyai hak-hak yang banyak atas diriku dalam hubunganku dengan-Mu, dan hak-hak yang banyak dalam hubunganku dengan makhluk-Mu. Ya Allah, apa yang menjadi hak-Mu atas diriku, maka ampunilah aku."
+            },
+            {
+                title: "Doa Tawaf Putaran 7 (Panduan Kemenag)",
+                arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ إِيمَانًا كَامِلًا، وَيَقِينًا صَادِقًا، وَرِزْقًا وَاسِعًا، وَقَلْبًا خَاشِعًا، وَلِسَانًا ذَاكِرًا",
+                latin: "Allahumma inni as'aluka iimaanan kaamilaan, wa yaqiinan shaadiqan, wa rizqan waasi'an, wa qalban khaasyi'an, wa lisaanan dzaakiran.",
+                indo: "Ya Allah, aku memohon kepada-Mu iman yang sempurna, keyakinan yang benar, rezeki yang luas, hati yang khusyuk, dan lisan yang senantiasa berdzikir."
+            },
+            {
+                title: "Doa Antara Rukun Yamani & Hajar Aswad (Disunnahkan Setiap Putaran)",
                 arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
                 latin: "Rabbanaa aatinaa fid-dunyaa hasanatan wa fil aakhirati hasanatan wa qinaa 'adzaaban-naar.",
                 indo: "Ya Tuhan kami, berilah kami kebaikan di dunia dan kebaikan di akhirat dan peliharalah kami dari siksa neraka."
-            },
-            {
-                title: "Doa Singkat Tawaf (Dibaca Sepanjang Putaran)",
-                arabic: "سُبْحَانَ اللَّهِ، وَالْحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ",
-                latin: "Subhanallah, walhamdulillah, wa laa ilaha illallah, wallahu akbar.",
-                indo: "Maha Suci Allah, segala puji bagi Allah, tiada sesembahan yang berhak disembah selain Allah, dan Allah Maha Besar."
             }
         ],
         'setelah-tawaf': [
@@ -558,31 +610,73 @@
                 latin: "Wattakhidzu min maqami ibrahima musalla.",
                 indo: "Dan jadikanlah sebagian maqam Ibrahim sebagai tempat shalat."
             },
-                {
-                title: "Doa setelah selesai thawaf di belakang Maqam Ibrahim",
-                arabic: "أَللَّهُمَّ إِنَّكَ تَعْلَمُ سِرِّي وَعَلَانِيَتِي فَاقْبَلْ مَعْذِرَتِي، وَتَعْلَمُ حَاجَتِي فَأَعْطِنِي سُؤْلِي، وَتَعْلَمُ مَا فِي نَفْسِي فَاغْفِرْ لِي ذُنُوبِي. أَللَّهُمَّ إِنِّي أَسْأَلُكَ إِيمَانًا دَائِمًا، وَيُبْصِرُ قَلْبًا خَاشِعًا، وَعِلْمًا نَافِعًا، وَيَقِينًا صَادِقًا، وَدِينًا قَيِّمًا، وَعَافِيَةً مِنْ كُلِّ بَلِيَّةٍ",
-                latin: "Allahumma innaka ta'lamu sirri wa 'alaniyati faqbal ma'dzirati, wa ta'lamu hajati fa'thini su'li, wa ta'lamu ma fi nafsi faghfir li zunubi. Allahumma inni as'aluka imanan da'iman, wa yubshiru qalban khashi'an, wa 'ilman nafi'an, wa yaqinan sadiqan, wa dinan qayyiman, 'afiyatan min kulli baliyyah.",
-                indo: "Ya Allah, sesungguhnya Engkau mengetahui rahasia dan terang-teranganku, maka terimalah udzurku. Engkau mengetahui keperluanku, maka berikanlah permintaanku. Engkau mengetahui apa yang ada di dalam hatiku, maka ampunilah dosa-dosaku. Ya Allah, aku memohon kepada-Nya iman yang kekal, hati yang khusyuk, ilmu yang bermanfaat, keyakinan yang benar, agama yang lurus, dan keselamatan dari segala bala bencana."
-            },
             {
                 title: "Doa Minum Air Zamzam",
                 arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا وَاسِعًا وَشِفَاءً مِنْ كُلِّ دَاءٍ",
                 latin: "Allahumma inni as-aluka 'ilman nafi'an, wa rizqan wasi'an, wa syifa'an min kulli da'in.",
                 indo: "Ya Allah, sesungguhnya aku memohon kepada-Mu ilmu yang bermanfaat, rezeki yang luas, dan kesembuhan dari segala penyakit."
-            },
+            }
         ],
         'sai': [
             {
-                title: "Doa Saat Mendekati Bukit Shafa",
-                arabic: "إِنَّ الصَّفَا وَالْمَرْوَةَ مِن شَعَائِرِ اللَّهِ ۖ فَمَنْ حَجَّ الْبَيْتَ أَوِ اعْتَمَرَ فَلَا جُنَاحَ عَلَيْهِ أَن يَطَّوَّفَ بِهِمَا ۚ وَمَن تَطَوَّعَ خَيْرًا فَإِنَّ اللَّهَ شَاكِرٌ عَلِيمٌ",
-                latin: "Innas-shafaa wal-marwata min sya'aa'irillaah, faman hajjal-baita awi'tamara falaa junaaha 'alaihi ayyath-thawwafa bihimaa, wa man tathawwa'a khairan fa innallaaha syaakirun 'aliim.",
-                indo: "Sesungguhnya Shafa dan Marwah adalah sebahagian dari syiar Allah. Maka barangsiapa yang beribadah haji ke Baitullah atau berumrah, maka tidak ada dosa baginya mengerjakan sa'i antara keduanya. Dan barangsiapa yang mengerjakan suatu kebajikan dengan kerelaan hati, maka sesungguhnya Allah Maha Mensyukuri kebaikan lagi Maha Mengetahui."
+                title: "Mendekati Bukit Shafa (Awal Sa'i)",
+                arabic: "إِنَّ الصَّفَا وَالْمَرْوَةَ مِن شَعَائِرِ اللَّهِ ۖ فَمَنْ حَجَّ الْبَيْتَ أَوِ اعْتَمَرَ فَلَا جُنَاحَ عَلَيْهِ أَن يَطَّوَّفَ بِهِمَا ۚ وَمَن تَطَوَّعَ خَيْرًا فَإِنَّ اللَّهَ شَاكِرٌ عَلِيمٌ. أَبْدَأُ بِمَا بَدَأَ اللهُ بِهِ",
+                latin: "Innas-shafaa wal-marwata min sya'aa'irillaah, faman hajjal-baita awi'tamara falaa junaaha 'alaihi ayyath-thawwafa bihimaa, wa man tathawwa'a khairan fa innallaaha syaakirun 'aliim. Abda'u bimaa bada'allahu bih.",
+                indo: "Sesungguhnya Shafa dan Marwah adalah sebahagian dari syiar Allah. Maka barangsiapa yang beribadah haji ke Baitullah atau berumrah, maka tidak ada dosa baginya mengerjakan sa'i antara keduanya. Dan barangsiapa yang mengerjakan suatu kebajikan dengan kerelaan hati, maka sesungguhnya Allah Maha Mensyukuri kebaikan lagi Maha Mengetahui. Aku memulai dengan apa yang Allah memulainya."
             },
             {
-                title: "Doa di Bukit Shafa dan Marwah",
-                arabic: "اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيْكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِيْ وَيُمِيْتُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيْرٌ",
-                latin: "Allahu akbar, Allahu akbar, Allahu akbar. Laa ilaha illallahu wahdahu laa syariikalah, lahul mulku wa lahul hamdu yuhyii wa yumiitu, wa huwa 'alaa kulli syai'in qadiir.",
-                indo: "Allah Maha Besar (3x). Tiada Tuhan yang berhak disembah melainkan Allah Yang Maha Esa, tiada sekutu bagi-Nya, bagi-Nya kerajaan dan bagi-Nya segala pujian. Dia-lah yang menghidupkan dan yang mematikan, dan Dia Maha Kuasa atas segala sesuatu."
+                title: "Doa di Bukit Shafa dan Marwah (Menghadap Kiblat)",
+                arabic: "اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيْكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِيْ وَيُمِيْتُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيْرٌ، لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ، أَنْجَزَ وَعْدَهُ، وَنَصَرَ عَبْدَهُ، وَهَزَمَ الأَحْزَابَ وَحْدَهُ",
+                latin: "Allahu akbar, Allahu akbar, Allahu akbar. Laa ilaha illallahu wahdahu laa syariikalah, lahul mulku wa lahul hamdu yuhyii wa yumiitu, wa huwa 'alaa kulli syai'in qadiir. Laa ilaha illallahu wahdah, anjaza wa'dah, wa nashara 'abdah, wa hazamal ahzaaba wahdah.",
+                indo: "Allah Maha Besar (3x). Tiada Tuhan yang berhak disembah melainkan Allah Yang Maha Esa, tiada sekutu bagi-Nya, bagi-Nya kerajaan dan bagi-Nya segala pujian. Dia-lah yang menghidupkan dan mematikan, dan Dia Maha Kuasa atas segala sesuatu. Tiada Tuhan yang berhak disembah melainkan Allah Yang Maha Esa, Dia telah menepati janji-Nya, menolong hamba-Nya, dan menghancurkan golongan musuh sendirian."
+            },
+            {
+                title: "Doa Di Antara Lampu Hijau (Berlari Kecil)",
+                arabic: "رَبِّ اغْفِرْ وَارْحَمْ وَأَنْتَ الْأَعَزُّ الْأَكْرَمُ",
+                latin: "Rabbighfir warham wa antal a'azzul akram.",
+                indo: "Ya Tuhanku, ampunilah dan rahmatilah aku. Sesungguhnya Engkaulah Yang Maha Perkasa lagi Maha Mulia."
+            },
+            {
+                title: "Doa Sa'i Putaran 1 (Panduan Kemenag)",
+                arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مُوْجِبَاتِ رَحْمَتِكَ وَعَزَائِمَ مَغْفِرَتِكَ وَالسَّلَامَةَ مِنْ كُلِّ إِثْمٍ وَالغَنِيْمَةَ مِنْ كُلِّ بِرٍّ...",
+                latin: "Allahumma inni as'aluka muujibaati rahmatika wa 'azaa'ima maghfiratika was-salaamata min kulli itsmin wal ghaniimata min kulli birrin...",
+                indo: "Ya Allah, aku memohon kepada-Mu hal-hal yang mendatangkan rahmat-Mu dan keteguhan ampunan-Mu, keselamatan dari segala dosa, dan keuntungan dari segala kebaikan..."
+            },
+            {
+                title: "Doa Sa'i Putaran 2 (Panduan Kemenag)",
+                arabic: "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ العَفْوَ فَاعْفُ عَنِّي...",
+                latin: "Allahumma innaka 'afuwwun tuhibbul 'afwa fa'fu 'annii...",
+                indo: "Ya Allah, sesungguhnya Engkau Maha Pemaaf dan menyukai kemaafan, maka maafkanlah aku..."
+            },
+            {
+                title: "Doa Sa'i Putaran 3 (Panduan Kemenag)",
+                arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الرِّضَا بَعْدَ القَضَاءِ وَبَرْدَ العَيْشِ بَعْدَ المَوْتِ...",
+                latin: "Allahumma inni as'alukar ridhaa ba'dal qadhaa-i wa bardal 'aisyi ba'dal mauti...",
+                indo: "Ya Allah, aku memohon kepada-Mu kerelaan setelah qadha (ketetapan-Mu) dan sejuknya kehidupan setelah kematian..."
+            },
+            {
+                title: "Doa Sa'i Putaran 4 (Panduan Kemenag)",
+                arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ خَيْرِ مَا تَعْلَمُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا تَعْلَمُ، وَأَسْتَغْفِرُكَ مِنْ كُلِّ مَا تَعْلَمُ، إِنَّكَ أَنْتَ عَلَّامُ الْغُيُوبِ",
+                latin: "Allahumma inni as'aluka min khairi maa ta'lam, wa a'uudzu bika min syarri maa ta'lam, wa astaghfiruka min kulli maa ta'lam, innaka anta 'allaamul ghuyuub.",
+                indo: "Ya Allah, aku memohon kepada-Mu kebaikan dari apa yang Engkau ketahui, dan aku berlindung kepada-Mu dari keburukan yang Engkau ketahui, dan aku memohon ampun dari segala yang Engkau ketahui, sesungguhnya Engkau Maha Mengetahui hal-hal yang gaib."
+            },
+            {
+                title: "Doa Sa'i Putaran 5 (Panduan Kemenag)",
+                arabic: "اللَّهُمَّ حَبِّبْ إِلَيْنَا الْإِيمَانَ وَزَيِّنْهُ فِي قُلُوبِنَا، وَكَرِّهْ إِلَيْنَا الْكُفْرَ وَالْفُسُوقَ وَالْعِصْيَانَ",
+                latin: "Allahumma habbib ilainal iimaana wa zayyinhu fii quluubina, wa karrih ilainal kufra wal fusuuqa wal 'ishyaan.",
+                indo: "Ya Allah, jadikanlah kami mencintai keimanan dan hiasilah hati kami dengannya, dan jadikanlah kami membenci kekafiran, kefasikan, dan kemaksiatan."
+            },
+            {
+                title: "Doa Sa'i Putaran 6 (Panduan Kemenag)",
+                arabic: "اللَّهُمَّ نَوِّرْ قَلْبِي بِنُورِ هِدَايَتِكَ كَمَا نَوَّرْتَ الْأَرْضَ بِنُورِ شَمْسِكَ أَبَدًا",
+                latin: "Allahumma nawwir qalbii binuuri hidaayatika kamaa nawwartal ardha binuuri syamsika abadan.",
+                indo: "Ya Allah, terangilah hatiku dengan cahaya petunjuk-Mu sebagaimana Engkau menerangi bumi dengan cahaya matahari-Mu untuk selamanya."
+            },
+            {
+                title: "Doa Sa'i Putaran 7 (Panduan Kemenag)",
+                arabic: "اللَّهُمَّ اجْعَلْ عُمْرَتَنَا عُمْرَةً مَبْرُورَةً، وَسَعْيَنَا سَعْيًا مَشْكُورًا، وَذَنْبَنَا ذَنْبًا مَغْفُورًا",
+                latin: "Allahummaj'al 'umratanaa 'umratan mabruuratan, wa sa'yanaa sa'yan masykuuran, wa dzanbanaa dzanban maghfuuran.",
+                indo: "Ya Allah, jadikanlah umrah kami umrah yang mabrur, sa'i kami sa'i yang disyukuri, dan dosa kami dosa yang diampuni."
             }
         ],
         'tahallul': [
@@ -717,6 +811,7 @@
     let currentArabicFontSize = 2.0; // rem
     let currentCount = 0;
     let currentCategory = '';
+    let currentUtterance = null; // Menyimpan status audio yang sedang diputar
 
     // Elements
     const homeView = document.getElementById('homeView');
@@ -728,6 +823,27 @@
     const counterFooter = document.getElementById('counterFooter');
     const counterValue = document.getElementById('counterValue');
     const counterLabel = document.getElementById('counterLabel');
+
+    // FUNGSI MEMUTAR AUDIO (Text-to-Speech)
+    function playArabicText(category, index) {
+        const textToPlay = doaData[category][index].arabic;
+        
+        // Pastikan browser mendukung TTS
+        if ('speechSynthesis' in window) {
+            // Hentikan suara yang sedang berjalan (jika ada)
+            window.speechSynthesis.cancel();
+            
+            currentUtterance = new SpeechSynthesisUtterance(textToPlay);
+            // Mengatur bahasa agar dibaca dengan aksen Arab
+            currentUtterance.lang = 'ar-SA'; 
+            // Memperlambat sedikit kecepatan bacaan agar mudah diikuti
+            currentUtterance.rate = 0.8; 
+            
+            window.speechSynthesis.speak(currentUtterance);
+        } else {
+            alert("Maaf, browser (HP) Anda tidak mendukung fitur pemutaran suara otomatis.");
+        }
+    }
 
     // Functions
     function openCategory(categoryKey, title) {
@@ -744,15 +860,21 @@
         contentScroll.innerHTML = '';
         const data = doaData[categoryKey];
         
-        data.forEach(item => {
+        data.forEach((item, index) => {
             const card = document.createElement('div');
             card.className = 'prayer-card';
             
-            // Logika render dinamis: Jika tidak ada text Arab/Latin, tidak perlu membuat elemennya agar rapi.
             let htmlContent = `<div class="prayer-title">${item.title}</div>`;
             
             if(item.arabic) {
-                htmlContent += `<div class="arabic-text" style="font-size: ${currentArabicFontSize}rem;">${item.arabic}</div>`;
+                // Modifikasi: Tambahkan tombol Play dan bungkus bersama teks Arab
+                htmlContent += `
+                <div class="arabic-wrapper">
+                    <button class="play-btn" onclick="playArabicText('${categoryKey}', ${index})" title="Putar Suara">
+                        <i class="fa-solid fa-volume-high"></i>
+                    </button>
+                    <div class="arabic-text" style="font-size: ${currentArabicFontSize}rem;">${item.arabic}</div>
+                </div>`;
             }
             if(item.latin) {
                 htmlContent += `<div class="latin-text">${item.latin}</div>`;
@@ -769,16 +891,20 @@
         if(categoryKey === 'tawaf' || categoryKey === 'sai') {
             counterFooter.style.display = 'flex';
             counterLabel.innerText = categoryKey === 'tawaf' ? 'Putaran Tawaf' : 'Perjalanan Sa\'i';
-            resetCounter(); // Reset when opening
+            resetCounter(); 
         } else {
             counterFooter.style.display = 'none';
         }
         
-        // Scroll to top
         contentScroll.scrollTop = 0;
     }
 
     function goHome() {
+        // Matikan audio jika user kembali ke menu utama
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+
         headerTitle.innerText = 'Doa Umrah Pro [by Dothey]';
         detailView.classList.remove('active');
         homeView.classList.add('active');
@@ -789,7 +915,6 @@
 
     function changeFontSize(change) {
         currentArabicFontSize += change;
-        // Limit font size bounds
         if(currentArabicFontSize < 1.5) currentArabicFontSize = 1.5;
         if(currentArabicFontSize > 3.5) currentArabicFontSize = 3.5;
         
@@ -804,15 +929,13 @@
             currentCount++;
             counterValue.innerText = currentCount;
             
-            // Haptic Feedback if supported by browser/device
             if (window.navigator && window.navigator.vibrate) {
-                window.navigator.vibrate(50); // Vibrate for 50ms
+                window.navigator.vibrate(50);
             }
 
-            // Optional: alert when finished
             if(currentCount === 7) {
                 if (window.navigator && window.navigator.vibrate) {
-                    window.navigator.vibrate([100, 50, 100]); // Vibrate longer when done
+                    window.navigator.vibrate([100, 50, 100]); 
                 }
                 setTimeout(() => {
                     alert('Alhamdulillah, Anda telah menyelesaikan 7 hitungan.');
